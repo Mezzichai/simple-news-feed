@@ -1,0 +1,36 @@
+.sortMenu {
+  display: inline-block;
+  position: relative;
+  word-break: keep-all;
+}
+
+.sortContainers {
+  display: flex;
+  
+}
+
+.dropDownList {
+  display: flex;
+  flex-direction: column;
+  background-color: antiquewhite;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  width: 100px;
+  border-radius: 1vh;
+  position: absolute;
+  right: 0;
+  overflow:hidden;
+}
+
+.item { 
+  list-style: none;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.item:hover {
+  background-color: rgb(236, 201, 152);
+}
+

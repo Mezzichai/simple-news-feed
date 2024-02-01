@@ -1,0 +1,80 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`App > renders snapshot 1`] = `
+<div>
+  <h1>
+    My Hacker Stories
+  </h1>
+  <form>
+    <label
+      for="search"
+    >
+      <strong>
+        Search:
+      </strong>
+    </label>
+    <input
+      id="search"
+      type="text"
+      value="JavaScript"
+    />
+    <button
+      type="submit"
+    >
+      Submit
+    </button>
+  </form>
+  <hr />
+  <span>
+    Loading...
+  </span>
+</div>
+`;
+
+exports[`Item > renders snapshot 1`] = `
+<li>
+  <span>
+    <a
+      href="https://reactjs.org/"
+    >
+      React
+    </a>
+  </span>
+  <span>
+    Jordan Walke
+  </span>
+  <span>
+    3
+  </span>
+  <span>
+    4
+  </span>
+  <button
+    type="button"
+  >
+    Remove item
+  </button>
+</li>
+`;
+
+exports[`SearchForm > renders snapshot 1`] = `
+<form>
+  <label
+    for="search"
+  >
+    <strong>
+      Search:
+    </strong>
+  </label>
+  <input
+    id="search"
+    type="text"
+    value="React"
+  />
+  <button
+    type="submit"
+  >
+    Submit
+  </button>
+</form>
+`;
