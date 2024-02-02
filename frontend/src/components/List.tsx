@@ -1,11 +1,11 @@
-import { memo, useState } from "react";
+import { memo, useRef, useState } from "react";
 import Item from "./Item";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons/faChevronDown";
-import SortDropDown from "./SortDropDown";
 import { SortKey, SortOrder } from "../reducers/storiesReducer";
 import dropDownStyles from '../styles/dropDownStyles.module.css'
-import SortOrderDropDown from "./SortOrderDropDown";
+import appStyles from '../styles/appStyles.module.css'
+import useClickOutside from "../hooks/useClickOutside";
 
 type Story = {
   objectID: number;
@@ -34,34 +34,55 @@ const propertyList = {
   points: {name: "points"}
 }
 
-const orderList: SortOrder[] = [
-  "ascending", "descending"
-]
+
 
 const List: React.FC<ListProps> =  memo(({ list, onRemoveHandler, handleChangeSortKey, handleChangeSortOrder, sortKey, sortOrder }) => {
   const [sortOptionsOpen, setSortOptionsList] = useState<boolean>(false);
   const [orderOptionsOpen, setOrderOptionsList] = useState<boolean>(false);
 
+  const sortRef = useRef<HTMLDivElement>(null);
+  const orderRef = useRef<HTMLDivElement>(null);
+
+  useClickOutside(sortRef, sortOptionsOpen, setSortOptionsList)
+  useClickOutside(orderRef, orderOptionsOpen, setOrderOptionsList)
+
   return (
     <>
       <div className={dropDownStyles.sortContainers}>
-        <div className={dropDownStyles.sortMenu}>
+        <div className={dropDownStyles.sortMenu} ref={sortRef}>
           <span style={{marginRight: "7px"}}>
             Sort by: {propertyList[sortKey].name}
           </span>
-          <FontAwesomeIcon icon={faChevronDown} onClick={() => setSortOptionsList(!sortOptionsOpen)}/>
-          {sortOptionsOpen ? <SortDropDown list={propertyList} handleClick={handleChangeSortKey} /> : null}
+          <FontAwesomeIcon icon={faChevronDown} onClick={() => {setSortOptionsList(!sortOptionsOpen)}}/>
+          {sortOptionsOpen ? 
+             <ul className={dropDownStyles.dropDownList}>
+              {Object.keys(propertyList).map((key) => (
+                <li className={dropDownStyles.item} key={key as SortKey} onClick={() => handleChangeSortKey(key as SortKey)}>
+                  {propertyList[key as SortKey].name}
+                </li>
+              ))}
+           </ul>
+          : null}
         </div>
 
-        <div style={{marginLeft: "20px"}} className={dropDownStyles.sortMenu}>
+        <div style={{marginLeft: "20px"}} ref={orderRef} className={dropDownStyles.sortMenu}>
           <span style={{marginRight: "7px"}}>
             Order: {sortOrder}
           </span>
           <FontAwesomeIcon icon={faChevronDown} onClick={() => setOrderOptionsList(!orderOptionsOpen)}/>
-          {orderOptionsOpen ? <SortOrderDropDown list={orderList} handleClick={handleChangeSortOrder} /> : null}
+          {orderOptionsOpen ? 
+            <ul className={dropDownStyles.dropDownList}>
+              <li className={dropDownStyles.item} onClick={() => handleChangeSortOrder("descending")}>
+                descending
+              </li>
+              <li className={dropDownStyles.item} onClick={() => handleChangeSortOrder("ascending")}>
+                ascending
+              </li>
+            </ul>
+          : null}
         </div>
       </div>
-      <ul>
+      <ul className={appStyles.listContainer}>
         {list.map((item) => (
           <Item 
             key={item.objectID}

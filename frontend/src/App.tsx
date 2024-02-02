@@ -20,9 +20,13 @@ const App = () => {
     "search",
     "React"
   );
-
   const [history, setHistory] = useState<string[]>([getUrl(searchTerm)])
-
+  const [page, setPage] = useState<number>(0)
+  const [stories, dispatchStories] = useReducer(
+    storiesReducer,
+    { data: [], isLoading: false, isError: false, isMoreLoading: false, isMoreError: false}
+  );
+  
   const searchHistoryTerms = history.map(url => url.replace(`${API_ENDPOINT}${API_QUERY_PARAM}`, ""))
 
   const handleSearchInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,10 +49,6 @@ const App = () => {
     event.preventDefault();
   };
 
-  const [stories, dispatchStories] = useReducer(
-    storiesReducer,
-    { data: [], isLoading: false, isError: false, isMoreLoading: false, isMoreError: false}
-  );
 
   const handleFetchStories = useCallback(() => {
     dispatchStories({ type: STORIES_FETCH_INIT });
@@ -67,8 +67,6 @@ const App = () => {
   useEffect(() => {
    handleFetchStories();
   }, [handleFetchStories]);
-
-  const [page, setPage] = useState<number>(0)
   
   const handleFetchMoreStories = () => {
     dispatchStories({ type: MORE_STORIES_FETCH_INIT });
@@ -85,7 +83,6 @@ const App = () => {
       )
   }
   
-
   const handleRemoveStory = useCallback((id: number) => {
     dispatchStories({
       type: REMOVE_STORY,
@@ -114,7 +111,7 @@ const App = () => {
   
   return (
     <div className={appStyles.container}>
-      <h1>My Hacker Stories</h1>
+      <h1>My Tech Stories</h1>
       <SearchForm  
         searchTerm={searchTerm}
         handleSearchInput={handleSearchInput}
@@ -133,12 +130,12 @@ const App = () => {
           {stories.isMoreError ?
             <>
               <p className={appStyles.statusInfo}>Error, try again</p>
-              <button onClick={handleFetchMoreStories}>More</button>
+              <button className={appStyles.moreBtn} onClick={handleFetchMoreStories}>More</button>
             </>
           : stories.isMoreLoading ? 
             <p className={appStyles.statusInfo}>Loading...</p>
           :
-            <button onClick={handleFetchMoreStories}>More</button>
+            <button className={appStyles.moreBtn}onClick={handleFetchMoreStories}>More</button>
           }
         </>
       }

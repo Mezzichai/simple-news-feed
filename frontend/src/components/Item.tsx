@@ -1,3 +1,6 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import appStyles from '../styles/appStyles.module.css'
+import { faX } from '@fortawesome/free-solid-svg-icons';
 
 type Story = {
   objectID: number;
@@ -17,15 +20,15 @@ type ItemProps = {
 
 
 const Item:React.FC<ItemProps> = ({ item, onRemoveHandler }) => (
-  <li>
+  <li className={appStyles.item}>
     <span>
       <a href={item.url}>{item.title}</a>
     </span>
-    <span>{item.author}</span>
-    <span>{item.num_comments}</span>
-    <span>{item.points}</span>
-    <button type="button" onClick={() => onRemoveHandler(item.objectID)}>
-      Remove item
+    <span>Author: {item.author}</span>
+    <span>Comments: {item.num_comments}</span>
+    <span>Points: {item.points}</span>
+    <button aria-label={`Remove ${item.title}`} className={appStyles.removeBtn} type="button" onClick={() => onRemoveHandler(item.objectID)}>
+      <FontAwesomeIcon icon={faX} />
     </button>
   </li>
 );

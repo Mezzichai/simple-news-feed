@@ -5,8 +5,7 @@
 }
 
 .sortContainers {
-  display: flex;
-  
+  display: inline-block;
 }
 
 .dropDownList {
@@ -21,6 +20,7 @@
   position: absolute;
   right: 0;
   overflow:hidden;
+  z-index: 999;
 }
 
 .item { 

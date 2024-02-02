@@ -11,7 +11,8 @@ console.log(history)
       <span>Last Searches:</span>
       <div className={historyStyles.container}>
         {history.map((searchTerm, index) => 
-        <button
+          <button
+            className={historyStyles.btn}
             key={searchTerm + index}
             type="button"
             onClick={() => handleSearch(searchTerm)}

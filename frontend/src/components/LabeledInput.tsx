@@ -1,3 +1,4 @@
+import appStyles from '../styles/appStyles.module.css'
 
 type LabeledInputProps = {
   id: string,
@@ -21,6 +22,7 @@ const LabeledInput: React.FC<LabeledInputProps> = ({
     <>
       <label htmlFor={id}>{children}</label>
       <input 
+        className={appStyles.searchInput}
         id={id} 
         type={type}
         value={value} 

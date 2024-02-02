@@ -1,8 +1,71 @@
+
+
 .container {
   display: flex;
+  gap: 10px;
   flex-direction: column;
 }
 
 .statusInfo {
   margin: 0 auto;
+}
+
+
+.listContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+}
+
+.item {
+  background-color: rgb(232, 231, 231);
+  display: flex;
+  list-style: none;
+  position: relative;
+  justify-content: space-between;
+  min-height: 5rem;
+  max-height: 5rem;
+  padding: 0.2rem;
+  border-radius: 10px;
+  overflow:hidden;
+}
+
+.removeBtn {
+ font-size: 1rem;
+ padding: .5rem;
+ color: rgb(190, 119, 119);
+ background-color: transparent;
+ border: none;
+ border-radius: 50px;
+ height: 1.5rem;
+ width: 1.5rem;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ align-self: flex-start;
+}
+
+.removeBtn:hover {
+  background-color: rgb(191, 191, 191);
+}
+
+.moreBtn {
+  padding: .4rem;
+  width: 10rem;
+  align-self: center;
+}
+
+.searchForm {
+  padding: .4rem
+}
+
+.searchBtn {
+  border: 1px solid black;
+  border-left: none;
+  padding: .45rem
+}
+
+.searchInput {
+  padding: .4rem
 }

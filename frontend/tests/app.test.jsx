@@ -2,8 +2,7 @@ import { describe, it, vi, expect } from 'vitest';
 import Item from '../src/components/Item';
 import SearchForm from '../src/components/SearchForm';
 import App from '../src/App';
-import LabeledInput from '../src/components/LabeledInput';
-import List from '../src/components/List';
+
 import axios from 'axios';
 import { storiesReducer, REMOVE_STORY } from '../src/reducers/storiesReducer';
 import {
@@ -57,7 +56,7 @@ describe('App', () => {
 
     expect(screen.getByText('Redux')).toBeInTheDocument();
 
-    expect(screen.getAllByText('Remove item').length).toBe(2);
+    expect(screen.getAllByLabelText(/Remove/).length).toBe(2);
   });
 
 
@@ -92,14 +91,15 @@ describe('App', () => {
     await waitFor(async () => await promise)
 
     //refers to the number of times this was found 
-    expect(screen.getAllByText("Remove item").length).toBe(2);
-    expect(screen.getByText('Jordan Walke')).toBeInTheDocument();
+    expect(screen.getAllByLabelText(/Remove/).length).toBe(2);
+    expect(screen.getByText(/Jordan Walke/)).toBeInTheDocument();
 
-    fireEvent.click(screen.getAllByText("Remove item")[0]);
+    fireEvent.click(screen.getAllByLabelText(/Remove/)[0]);
 
-    expect(screen.getAllByText("Remove item").length).toBe(1);
-    expect(screen.queryByText("Jordan Walke")).toBeNull()
+    expect(screen.getAllByLabelText(/Remove/).length).toBe(1);
+    expect(screen.queryByText(/Jordan Walke/)).toBeNull()
   });
+
 
   it('searches for specific stories', async () => {
     const reactPromise = Promise.resolve({
@@ -146,11 +146,11 @@ describe('App', () => {
     expect(screen.queryByDisplayValue('React')).toBeInTheDocument();
     expect(screen.queryByDisplayValue('JavaScript')).toBeNull();
 
-    expect(screen.queryByText('Jordan Walke')).toBeInTheDocument();
+    expect(screen.queryByText(/Jordan Walke/)).toBeInTheDocument();
     expect(
-      screen.queryByText('Dan Abramov, Andrew Clark')
+      screen.queryByText(/Dan Abramov, Andrew Clark/)
     ).toBeInTheDocument();
-    expect(screen.queryByText('Brendan Eich')).toBeNull();
+    expect(screen.queryByText(/Brendan Eich/)).toBeNull();
 
     // User Interaction -> Search
 
@@ -165,17 +165,17 @@ describe('App', () => {
       screen.queryByDisplayValue('JavaScript')
     ).toBeInTheDocument();
 
-    fireEvent.submit(screen.queryByText('Submit'));
+    fireEvent.submit(screen.getByLabelText('submit'));
 
     // Second Data Fetching
 
     await waitFor(async () => await javascriptPromise);
 
-    expect(screen.queryByText('Jordan Walke')).toBeNull();
+    expect(screen.queryByText(/Jordan Walke/)).toBeNull();
     expect(
-      screen.queryByText('Dan Abramov, Andrew Clark')
+      screen.queryByText(/Dan Abramov, Andrew Clark/)
     ).toBeNull();
-    expect(screen.queryByText('Brendan Eich')).toBeInTheDocument();
+    expect(screen.queryByText(/Brendan Eich/)).toBeInTheDocument();
   });
 
   it("renders snapshot", () => {
@@ -183,6 +183,7 @@ describe('App', () => {
     expect(container.firstChild).toMatchSnapshot();
   })
 });
+
 
 describe('stories reducer', () => {
   it('removes a storty from stories', () => {
@@ -204,7 +205,7 @@ describe('Item', () => {
   it("renders all properties", () => {
     render(<Item item={storyOne} />);
 
-    expect(screen.getByText('Jordan Walke')).toBeInTheDocument();
+    expect(screen.getByText(/Jordan Walke/)).toBeInTheDocument();
     expect(screen.getByText('React')).toHaveAttribute(
       'href',
       'https://reactjs.org/'
